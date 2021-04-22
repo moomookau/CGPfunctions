@@ -153,7 +153,7 @@ newggslopegraph <- function(dataframe,
                         Times,
                         Measurement,
                         Grouping,
-                        ColorGroup,
+                        ColorGroup = NULL,
                         Data.label = NULL,
                         Title = "No title given",
                         SubTitle = "No subtitle given",
@@ -250,7 +250,10 @@ newggslopegraph <- function(dataframe,
   NTimes <- deparse(substitute(Times)) # name of Times variable
   NMeasurement <- deparse(substitute(Measurement)) # name of Measurement variable
   NGrouping <- deparse(substitute(Grouping)) # name of Grouping variable
-  NColorGroup <- deparse(substitute(ColorGroup)) # name of ColorGroup variable
+  if (!is.null(ColorGroup))
+  {
+    NColorGroup <- deparse(substitute(ColorGroup)) # name of ColorGroup variable
+  }
 
   if(is.null(argList$Data.label)) {
     NData.label <- deparse(substitute(Measurement))
@@ -276,7 +279,7 @@ newggslopegraph <- function(dataframe,
   if (!NGrouping %in% names(dataframe)) {
     stop(paste0("'", NGrouping, "' is not the name of a variable in the dataframe"), call. = FALSE)
   }
-  if (!NColorGroup %in% names(dataframe)) {
+  if (!is.null(ColorGroup) && !NColorGroup %in% names(dataframe)) {
     stop(paste0("'", NColorGroup, "' is not the name of a variable in the dataframe"), call. = FALSE)
   }
   if (!NData.label %in% names(dataframe)) {
@@ -302,7 +305,9 @@ newggslopegraph <- function(dataframe,
   Times <- enquo(Times)
   Measurement <- enquo(Measurement)
   Grouping <- enquo(Grouping)
-  ColorGroup <- enquo(ColorGroup)
+  if (!is.null(ColorGroup)) {
+    ColorGroup <- enquo(ColorGroup)
+  }
   Data.label <- enquo(Data.label)
 
   # ---------------- handle some special options ----------------------------
@@ -320,15 +325,18 @@ newggslopegraph <- function(dataframe,
     MySpecial <- c(MySpecial, scale_y_reverse())
   }
 
+  if (!is.null(ColorGroup)) {
+    LineGeom <- list(geom_line(aes_(color = ColorGroup, alpha = 1), size = LineThickness))
+  }
   if (length(LineColor) > 1) {
     if (length(LineColor) < length(unique(dataframe[[NGrouping]]))) {
       message(paste0("\nYou gave me ", length(LineColor), " colors I'm recycling colors because you have ", length(unique(dataframe[[NGrouping]])), " ", NGrouping, "s\n"))
       LineColor <- rep(LineColor, length.out = length(unique(dataframe[[NGrouping]])))
     }
-    LineGeom <- list(geom_line(aes_(color = ColorGroup), size = LineThickness), scale_color_manual(values = LineColor))
+    LineGeom <- list(geom_line(aes_(color = Grouping), size = LineThickness), scale_color_manual(values = LineColor))
   } else {
     if (LineColor == "ByGroup") {
-      LineGeom <- list(geom_line(aes_(color = ColorGroup, alpha = 1), size = LineThickness))
+      LineGeom <- list(geom_line(aes_(color = Grouping, alpha = 1), size = LineThickness))
     } else {
       LineGeom <- list(geom_line(aes_(), size = LineThickness, color = LineColor))
     }
