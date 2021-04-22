@@ -328,7 +328,7 @@ newggslopegraph <- function(dataframe,
   if (!is.null(argList$ColorGroup)) {
     LineGeom <- list(geom_line(aes_(color = ColorGroup, alpha = 1), size = LineThickness))
   }
-  if (length(LineColor) > 1) {
+  else if (length(LineColor) > 1) {
     if (length(LineColor) < length(unique(dataframe[[NGrouping]]))) {
       message(paste0("\nYou gave me ", length(LineColor), " colors I'm recycling colors because you have ", length(unique(dataframe[[NGrouping]])), " ", NGrouping, "s\n"))
       LineColor <- rep(LineColor, length.out = length(unique(dataframe[[NGrouping]])))
