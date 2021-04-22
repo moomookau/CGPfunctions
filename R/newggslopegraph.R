@@ -250,6 +250,7 @@ newggslopegraph <- function(dataframe,
   NTimes <- deparse(substitute(Times)) # name of Times variable
   NMeasurement <- deparse(substitute(Measurement)) # name of Measurement variable
   NGrouping <- deparse(substitute(Grouping)) # name of Grouping variable
+  NColorGroup <- deparse(substitute(ColorGroup)) # name of ColorGroup variable
 
   if(is.null(argList$Data.label)) {
     NData.label <- deparse(substitute(Measurement))
@@ -275,6 +276,9 @@ newggslopegraph <- function(dataframe,
   if (!NGrouping %in% names(dataframe)) {
     stop(paste0("'", NGrouping, "' is not the name of a variable in the dataframe"), call. = FALSE)
   }
+  if (!NColorGroup %in% names(dataframe)) {
+    stop(paste0("'", NColorGroup, "' is not the name of a variable in the dataframe"), call. = FALSE)
+  }
   if (!NData.label %in% names(dataframe)) {
     stop(paste0("'", NData.label, "' is not the name of a variable in the dataframe"), call. = FALSE)
   }
@@ -298,6 +302,7 @@ newggslopegraph <- function(dataframe,
   Times <- enquo(Times)
   Measurement <- enquo(Measurement)
   Grouping <- enquo(Grouping)
+  ColorGroup <- enquo(ColorGroup)
   Data.label <- enquo(Data.label)
 
   # ---------------- handle some special options ----------------------------
