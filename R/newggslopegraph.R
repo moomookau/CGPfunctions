@@ -250,7 +250,7 @@ newggslopegraph <- function(dataframe,
   NTimes <- deparse(substitute(Times)) # name of Times variable
   NMeasurement <- deparse(substitute(Measurement)) # name of Measurement variable
   NGrouping <- deparse(substitute(Grouping)) # name of Grouping variable
-  if (!is.null(ColorGroup))
+  if (!is.null(argList$ColorGroup))
   {
     NColorGroup <- deparse(substitute(ColorGroup)) # name of ColorGroup variable
   }
@@ -279,7 +279,7 @@ newggslopegraph <- function(dataframe,
   if (!NGrouping %in% names(dataframe)) {
     stop(paste0("'", NGrouping, "' is not the name of a variable in the dataframe"), call. = FALSE)
   }
-  if (!is.null(ColorGroup) && !NColorGroup %in% names(dataframe)) {
+  if (!is.null(argList$ColorGroup) && !NColorGroup %in% names(dataframe)) {
     stop(paste0("'", NColorGroup, "' is not the name of a variable in the dataframe"), call. = FALSE)
   }
   if (!NData.label %in% names(dataframe)) {
@@ -305,7 +305,7 @@ newggslopegraph <- function(dataframe,
   Times <- enquo(Times)
   Measurement <- enquo(Measurement)
   Grouping <- enquo(Grouping)
-  if (!is.null(ColorGroup)) {
+  if (!is.null(argList$ColorGroup)) {
     ColorGroup <- enquo(ColorGroup)
   }
   Data.label <- enquo(Data.label)
@@ -325,7 +325,7 @@ newggslopegraph <- function(dataframe,
     MySpecial <- c(MySpecial, scale_y_reverse())
   }
 
-  if (!is.null(ColorGroup)) {
+  if (!is.null(argList$ColorGroup)) {
     LineGeom <- list(geom_line(aes_(color = ColorGroup, alpha = 1), size = LineThickness))
   }
   if (length(LineColor) > 1) {
