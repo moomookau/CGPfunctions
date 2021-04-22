@@ -20,6 +20,8 @@
 #' when the measurements are not too disparate.
 #' @param Grouping a column inside the dataframe that will be used to group and
 #' distinguish measurements.
+#' @param ColorGroup a column inside the dataframe that will be used to group and
+#' colour measurements.
 #' @param Data.label an optional column inside the dataframe that will be used
 #'   as the label for the data points plotted.  Can be complex strings and
 #'   have `NA` values but must be of class `chr`.  By default `Measurement` is
