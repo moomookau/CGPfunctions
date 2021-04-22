@@ -151,6 +151,7 @@ newggslopegraph <- function(dataframe,
                         Times,
                         Measurement,
                         Grouping,
+                        ColorGroup,
                         Data.label = NULL,
                         Title = "No title given",
                         SubTitle = "No subtitle given",
@@ -317,10 +318,10 @@ newggslopegraph <- function(dataframe,
       message(paste0("\nYou gave me ", length(LineColor), " colors I'm recycling colors because you have ", length(unique(dataframe[[NGrouping]])), " ", NGrouping, "s\n"))
       LineColor <- rep(LineColor, length.out = length(unique(dataframe[[NGrouping]])))
     }
-    LineGeom <- list(geom_line(aes_(color = Grouping), size = LineThickness), scale_color_manual(values = LineColor))
+    LineGeom <- list(geom_line(aes_(color = ColorGroup), size = LineThickness), scale_color_manual(values = LineColor))
   } else {
     if (LineColor == "ByGroup") {
-      LineGeom <- list(geom_line(aes_(color = Grouping, alpha = 1), size = LineThickness))
+      LineGeom <- list(geom_line(aes_(color = ColorGroup, alpha = 1), size = LineThickness))
     } else {
       LineGeom <- list(geom_line(aes_(), size = LineThickness, color = LineColor))
     }
